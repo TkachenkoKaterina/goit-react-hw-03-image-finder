@@ -1,18 +1,17 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://pixabay.com/api/';
-axios.defaults.headers.common['key'] = '32131085-77c33ae4af62fbdfe36accafe';
+const baseUrl = 'https://pixabay.com/api/';
+const IPI_KEY = '32131085-77c33ae4af62fbdfe36accafe';
 
-export const fetchGallery = async () => {
-  const response = await axios.get('forest');
-  return response.data;
+export const fetchGallery = async (searchValueInput, prevSearchValue) => {
+  console.log(searchValueInput);
+  console.log(prevSearchValue);
+  let url = `${baseUrl}?key=${IPI_KEY}&q=${searchValueInput}&image_type=photo&orientation=horizontal&per_page=12`;
+  if (searchValueInput !== prevSearchValue) {
+    url += '&page=1';
+  }
+  const response = await axios.get(url);
+  console.log(response);
+  console.log(response.data);
+  return response.data.hits;
 };
-
-// export const fetchGallery = async breedId => {
-//   const response = await axios.get('/images/search', {
-//     params: {
-//       breed_id: breedId,
-//     },
-//   });
-//   return response.data[0];
-// };

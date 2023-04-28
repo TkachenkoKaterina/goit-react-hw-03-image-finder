@@ -1,45 +1,14 @@
-import { Component } from 'react';
-import { fetchGallery } from 'api';
-// import { ErrorMessage } from './ErorrMessage';
+import React from 'react';
+import { ImageGalleryItem } from '..//ImageGalleryItem/ImageGalleryItem';
 
-const ERROR_MSG = 'Что-то пошло не так:( Друже, попробуй обновить страничку!';
-
-export class ImageGallery extends Component {
-  state = {
-    gallery: [],
-    isLoading: false,
-    error: null,
-  };
-
-  async componentDidMount() {
-    try {
-      this.setState({ isLoading: true, error: null });
-      const fetchedGallery = await fetchGallery();
-      this.setState({ gallery: fetchedGallery });
-    } catch (error) {
-      this.setState({ error: ERROR_MSG });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  }
-
-  render() {
-    const { gallery, isLoading } = this.state;
-    // const options = breeds.map(breed => ({
-    //   value: breed.id,
-    //   label: breed.name,
-    // }));
-
-    return (
-      <ul>
-        {gallery.map(galleryImg => (
-          <li>{galleryImg}</li>
+export const ImageGallery = ({ gallery }) => {
+  console.log(gallery);
+  return (
+    <ul className="gallery">
+      {Array.isArray(gallery) &&
+        gallery.map(({ id, webformatURL, tags }) => (
+          <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags} />
         ))}
-      </ul>
-    );
-  }
-}
-
-// {
-//   error && <ErrorMessage>{error}</ErrorMessage>;
-// }
+    </ul>
+  );
+};

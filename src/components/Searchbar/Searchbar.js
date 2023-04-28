@@ -1,15 +1,35 @@
-<header class="searchbar">
-  <form class="form">
-    <button type="submit" class="button">
-      <span class="button-label">Search</span>
-    </button>
+import React from 'react';
+import { Formik } from 'formik';
+import { Form, Field, Button, SearchbarHeader } from './Searchbar.styled';
+import { AiOutlineSearch } from 'react-icons/ai';
 
-    <input
-      class="input"
-      type="text"
-      autocomplete="off"
-      autofocus
-      placeholder="Search images and photos"
-    />
-  </form>
-</header>;
+export const Searchbar = ({ onSubmit }) => {
+  return (
+    <SearchbarHeader>
+      <Formik
+        initialValues={{
+          searchValue: '',
+        }}
+        onSubmit={(values, actions) => {
+          console.log(values);
+          console.log(values.searchValue);
+          onSubmit(values.searchValue);
+          actions.resetForm();
+        }}
+      >
+        <Form>
+          <Button type="submit">
+            <AiOutlineSearch size="24" />
+          </Button>
+
+          <Field
+            name="searchValue"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+          />
+        </Form>
+      </Formik>
+    </SearchbarHeader>
+  );
+};
