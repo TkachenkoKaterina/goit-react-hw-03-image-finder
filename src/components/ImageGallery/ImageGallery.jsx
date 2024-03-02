@@ -4,6 +4,7 @@ import { getImagesApi } from '../../api/api';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
 import Loader from 'components/Loader/Loader';
+import { Modal } from 'components/Modal/Modal';
 
 export class ImageGallery extends Component {
   state = {
@@ -12,6 +13,7 @@ export class ImageGallery extends Component {
     images: [],
     showBtn: false,
     loader: false,
+    selectedImage: null,
   };
 
   componentDidMount() {
@@ -40,7 +42,7 @@ export class ImageGallery extends Component {
 
       this.setState({
         images: newImages,
-        showBtn: page < Math.ceil(totalHits / 10),
+        showBtn: page < Math.ceil(totalHits / 12),
       });
     } catch (error) {
       console.error('Error fetching images:', error);
@@ -55,19 +57,40 @@ export class ImageGallery extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
+  handleLargeImageURLClick = ({ tags, largeImageURL }) => {
+    this.setState({ selectedImage: { tags, largeImageURL } });
+  };
+
+  closeModal = () => {
+    this.setState({ selectedImage: null });
+  };
+
   render() {
-    const { images, showBtn, loader } = this.state;
+    const { images, showBtn, loader, selectedImage } = this.state;
     return (
       <>
         <Searchbar handleSubmit={this.handleSubmit} />
-        {loader && <Loader />}
+        <Loader />
+        {selectedImage && (
+          <Modal
+            largeImageURL={selectedImage.largeImageURL}
+            tags={selectedImage.tags}
+            onClose={this.closeModal}
+          />
+        )}
         {images.length > 0 && (
           <ul className="gallery">
-            {images.map(({ id, webformatURL, tags }) => (
+            {images.map(({ id, webformatURL, tags, largeImageURL }) => (
               <ImageGalleryItem
                 key={id}
                 webformatURL={webformatURL}
-                tags={webformatURL}
+                tags={tags}
+                onClick={() =>
+                  this.handleLargeImageURLClick({
+                    tags,
+                    largeImageURL,
+                  })
+                }
               />
             ))}
           </ul>
