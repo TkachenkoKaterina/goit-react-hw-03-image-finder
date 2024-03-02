@@ -70,7 +70,7 @@ export class ImageGallery extends Component {
     return (
       <>
         <Searchbar handleSubmit={this.handleSubmit} />
-        <Loader />
+        {loader && <Loader />}
         {selectedImage && (
           <Modal
             largeImageURL={selectedImage.largeImageURL}
