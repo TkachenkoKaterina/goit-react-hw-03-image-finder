@@ -1,7 +1,7 @@
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import React, { Component } from 'react';
 import { getImagesApi } from '../../api/api';
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
 import Loader from 'components/Loader/Loader';
 import { Modal } from 'components/Modal/Modal';
@@ -39,10 +39,12 @@ export class ImageGallery extends Component {
     const { searchTextValue, page } = this.state;
     try {
       const { totalHits, hits } = await getImagesApi(searchTextValue, page);
-      const newImages = page === 1 ? hits : [...this.state.images, ...hits];
-
+      if (!searchTextValue) {
+        this.setState({ showBtn: false });
+        return;
+      }
       this.setState({
-        images: newImages,
+        images: [...this.state.images, ...hits],
         showBtn: page < Math.ceil(totalHits / 12),
       });
     } catch (error) {

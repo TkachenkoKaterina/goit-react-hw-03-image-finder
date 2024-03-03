@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
-export default function ImageGalleryItem({ webformatURL, tags, onClick }) {
+export function ImageGalleryItem({ webformatURL, tags, onClick }) {
   return (
     <li className={css['gallery-item']} onClick={onClick}>
       <img className={css['gallery-item img']} src={webformatURL} alt={tags} />
