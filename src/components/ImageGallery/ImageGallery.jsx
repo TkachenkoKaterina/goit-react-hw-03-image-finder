@@ -5,10 +5,11 @@ import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
 import Loader from 'components/Loader/Loader';
 import { Modal } from 'components/Modal/Modal';
+import css from './ImageGallery.module.css';
 
 export class ImageGallery extends Component {
   state = {
-    searchTextValue: '',
+    searchTextValue: 'dog',
     page: 1,
     images: [],
     showBtn: false,
@@ -70,16 +71,9 @@ export class ImageGallery extends Component {
     return (
       <>
         <Searchbar handleSubmit={this.handleSubmit} />
-        {loader && <Loader />}
-        {selectedImage && (
-          <Modal
-            largeImageURL={selectedImage.largeImageURL}
-            tags={selectedImage.tags}
-            onClose={this.closeModal}
-          />
-        )}
+
         {images.length > 0 && (
-          <ul className="gallery">
+          <ul className={css.gallery}>
             {images.map(({ id, webformatURL, tags, largeImageURL }) => (
               <ImageGalleryItem
                 key={id}
@@ -95,7 +89,15 @@ export class ImageGallery extends Component {
             ))}
           </ul>
         )}
+        {loader && <Loader />}
         {showBtn && <Button onClick={this.handleLoadMore} />}
+        {selectedImage && (
+          <Modal
+            largeImageURL={selectedImage.largeImageURL}
+            tags={selectedImage.tags}
+            onClose={this.closeModal}
+          />
+        )}
       </>
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MutatingDots } from 'react-loader-spinner';
+import css from './Loader.module.css';
 
 export default function Loader() {
   return (
@@ -12,7 +13,7 @@ export default function Loader() {
       radius="12.5"
       ariaLabel="mutating-dots-loading"
       wrapperStyle={{}}
-      wrapperClass=""
+      wrapperClass={css.loader}
     />
   );
 }
