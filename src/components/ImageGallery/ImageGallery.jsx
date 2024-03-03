@@ -17,10 +17,6 @@ export class ImageGallery extends Component {
     selectedImage: null,
   };
 
-  componentDidMount() {
-    this.fetchImages();
-  }
-
   componentDidUpdate(_, prevState) {
     const { searchTextValue, page } = this.state;
     if (
@@ -53,7 +49,12 @@ export class ImageGallery extends Component {
   };
 
   handleSubmit = searchText => {
-    this.setState({ searchTextValue: searchText, page: 1, images: [] });
+    this.setState({
+      searchTextValue: searchText,
+      page: 1,
+      images: [],
+      showBtn: false,
+    });
   };
 
   handleLoadMore = () => {
